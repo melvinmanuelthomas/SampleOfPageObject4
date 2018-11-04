@@ -7,8 +7,9 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 
 public class ResultPage extends BasePage{
-    @FindBy (css = ".LC20lb")
+    @FindBy (css = "#search h3.LC20lb")
     List<WebElement> searchResultsHeaders;
+
 
 
     public ResultPage(WebDriver driver) {

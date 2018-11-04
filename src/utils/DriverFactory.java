@@ -7,7 +7,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.safari.SafariDriver;
 
-public class DriverFactory {
+public class DriverFactory    {
     public static WebDriver wd;
 
     public static WebDriver setBrowser(String browser) {
