@@ -1,19 +1,19 @@
 package tests;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import pages.GoogleMaps;
 import pages.GoogleSearchPage;
 
-import java.util.List;
+import java.io.IOException;
 
 public class GoogleSearchTest extends BaseTest{
     GoogleSearchPage googleSearchPage = new GoogleSearchPage(wd);
+
+
+
+
     /*@Test
     public void doGoogleSearch(){
      SearchPage searchPage = new SearchPage(wd);
@@ -74,17 +74,16 @@ public class GoogleSearchTest extends BaseTest{
 
 
 
-    @Test(dataProvider = "Search Computer Manufacturers")
-    public void doGoogleSearch(String searchName) {
-        wd.get("https://www.google.com");
-        wd.findElement(By.cssSelector("div.a4bIc > input")).sendKeys(searchName);
-        wd.findElement(By.cssSelector("input[type=\"submit\"]:nth-child(1)")).click();
-        WebDriverWait wait = new WebDriverWait(wd, 10);
-        WebElement element = wait.until(ExpectedConditions.visibilityOf(wd.findElement(By.cssSelector("#logo > img"))));
-        List<WebElement> list= wd.findElements(By.cssSelector("#search h3.LC20lb"));
-        for(WebElement webeElement:list){System.out.println(webeElement.getText());}
-
-    }
+//    @Test(dataProvider = "Search Computer Manufacturers")
+//    public void doGoogleSearch(String searchName) {
+//        wd.findElement(By.cssSelector("div.a4bIc > input")).sendKeys(searchName);
+//        wd.findElement(By.cssSelector("input[type=\"submit\"]:nth-child(1)")).click();
+//        WebDriverWait wait = new WebDriverWait(wd, 10);
+//        WebElement element = wait.until(ExpectedConditions.visibilityOf(wd.findElement(By.cssSelector("#logo > img"))));
+//        List<WebElement> list= wd.findElements(By.cssSelector("#search h3.LC20lb"));
+//        for(WebElement webeElement:list){System.out.println(webeElement.getText());}
+//
+//    }
 
 
     @DataProvider(name = "Maps")
@@ -95,46 +94,49 @@ public class GoogleSearchTest extends BaseTest{
     }
 
 
-    @Test(dataProvider = "Maps")
-    public void doGoogleMapSearch(String  from, String destinations) {
-        wd.get("https://www.google.com");
-        wd.findElement(By.cssSelector("div.a4bIc > input")).sendKeys("Google Maps");
-        wd.findElement(By.cssSelector("input[type=\"submit\"]:nth-child(1)")).click();
-        WebDriverWait wait = new WebDriverWait(wd, 10);
-        WebElement element = wait.until(ExpectedConditions.visibilityOf(wd.findElement(By.cssSelector("#logo > img"))));
-        List<WebElement> list= wd.findElements(By.cssSelector("#search h3.LC20lb"));
-        list.get(0).click();
-        wd.findElement(By.cssSelector("#searchbox-directions")).click();
-        wait.until(ExpectedConditions.visibilityOf(wd.findElement(By.cssSelector("#sb_ifc51 > input"))));
-        wd.findElement(By.xpath("//*[@id=\"sb_ifc51\"]/input")).clear();
-        wd.findElement(By.xpath("//*[@id=\"sb_ifc51\"]/input")).sendKeys(from);
-        wd.findElement(By.xpath("//*[@id=\"sb_ifc52\"]/input")).sendKeys(destinations);
-        wd.findElement(By.xpath("//*[@id=\"sb_ifc52\"]/input")).sendKeys(Keys.ENTER);
-        WebElement element1 = wd.findElement(By.xpath("//*[@id=\"section-directions-trip-0\"]/div[2]/div[1]/div[1]/div[1]/span[1]"));
-        System.out.println("The time it takes from " + from + " and " + destinations + " is " + element1.getText());
+//    @Test(dataProvider = "Maps")
+//    public void doGoogleMapSearch(String  from, String destinations) {
+//        wd.findElement(By.cssSelector("div.a4bIc > input")).sendKeys("Google Maps");
+//        wd.findElement(By.cssSelector("input[type=\"submit\"]:nth-child(1)")).click();
+//        WebDriverWait wait = new WebDriverWait(wd, 10);
+//        WebElement element = wait.until(ExpectedConditions.visibilityOf(wd.findElement(By.cssSelector("#logo > img"))));
+//        List<WebElement> list= wd.findElements(By.cssSelector("#search h3.LC20lb"));
+//        list.get(0).click();
+//        wd.findElement(By.cssSelector("#searchbox-directions")).click();
+//        wait.until(ExpectedConditions.visibilityOf(wd.findElement(By.cssSelector("#sb_ifc51 > input"))));
+//        wd.findElement(By.xpath("//*[@id=\"sb_ifc51\"]/input")).clear();
+//        wd.findElement(By.xpath("//*[@id=\"sb_ifc51\"]/input")).sendKeys(from);
+//        wd.findElement(By.xpath("//*[@id=\"sb_ifc52\"]/input")).sendKeys(destinations);
+//        wd.findElement(By.xpath("//*[@id=\"sb_ifc52\"]/input")).sendKeys(Keys.ENTER);
+//        WebElement element1 = wd.findElement(By.xpath("//*[@id=\"section-directions-trip-0\"]/div[2]/div[1]/div[1]/div[1]/span[1]"));
+//        System.out.println("The time it takes from " + from + " and " + destinations + " is " + element1.getText());
+//
+//    }
 
+
+    @BeforeMethod
+    public void openGoogle(){
+        googleSearchPage.openGooglePage();
     }
 
-
     @Test(dataProvider = "Maps")
-    public void doGoogleMapSearch2(String  from, String destinations) {
-
-        googleSearchPage.openGooglePage()
-                .doGoogleSearch("Google Maps")
+    public void doGoogleMapSearch2(String  from, String destinations) throws IOException {
+        googleSearchPage.doGoogleSearch("Google Maps")
                 .clickOnLinkByValue(0);
         GoogleMaps googleMaps = new GoogleMaps(wd);
         googleMaps.openDirections()
                 .destinationInput(from, destinations)
                 .verifyTimeBetweenDesinations(from, destinations);
-
-
+    captureScreenshot();
     }
 
     @Test
     public void doGoogleSearchParameters() {
-        googleSearchPage.openGooglePage()
+        googleSearchPage
                 .doGoogleSearch("planets")
                 .clickOnLinkByValue(0);
     }
+
+
 
 }
