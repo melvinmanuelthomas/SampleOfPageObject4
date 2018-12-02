@@ -23,9 +23,11 @@ public class GithubLoginTest extends BaseTest {
     @Test
     public void loginToGithubusingPOM() {
         String expectedResult = "melvinmanuelthomas";
+        String username = "melvinmanuelthomas";
+        String password = "CT6PWx$fML";
         GithubLoginPage githubPage = new GithubLoginPage(wd);
         GithubDashboard githubDashboard = githubPage.openGithubLoginPage()
-                .loginWithCredentials("melvinmanuelthomas", "CT6PWx$fML")
+                .loginWithCredentials(username, password)
                 .openProfilePopup();
         Assert.assertEquals(githubDashboard.getUsernamefromDashboard(), expectedResult);
     }
